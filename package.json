@@ -1,0 +1,17 @@
+{
+	"name": "auth0-widget",
+	"version": "0.0.1",
+	"description": "React Library of Auth0 Components",
+	"main": "dist/bundle.js",
+	"module": "dist/esm/index.js",
+	"browser": "dist/bundle.js",
+	"types": "dist/index.d.ts",
+	"author": "Danny Fuhriman",
+	"license": "Okta CLA",
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc && vite build",
+		"preview": "vite preview",
+		"prepack": "json -f package.json -I -e \"delete this.devDependencies; delete this.dependencies\""
+	}
+}
