@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import path from 'node:path';
 import react from '@vitejs/plugin-react';
 import dts from 'vite-plugin-dts';
+import libCss from 'vite-plugin-libcss';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -10,6 +11,7 @@ export default defineConfig({
 		dts({
 			insertTypesEntry: true,
 		}),
+		libCss(),
 	],
 	build: {
 		sourcemap: true,
@@ -17,6 +19,7 @@ export default defineConfig({
 		terserOptions: {
 			module: true,
 		},
+		cssCodeSplit: true,
 		lib: {
 			entry: path.resolve(__dirname, 'src/lib/index.tsx'),
 			name: 'Auth0Widget',

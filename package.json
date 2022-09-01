@@ -1,6 +1,6 @@
 {
 	"name": "auth0-widget",
-	"version": "0.0.16",
+	"version": "0.0.18",
 	"description": "React Library of Auth0 Components",
 	"main": "dist/auth0-widget.umd.js",
 	"module": "dist/auth0-widget.es.js",
@@ -31,13 +31,13 @@
 		"@mui/utils": "^5.10.3",
 		"@rollup/plugin-typescript": "^8.3.3",
 		"@storybook/addon-actions": "^6.5.9",
-		"@storybook/addon-docs": "^6.5.9",
-		"@storybook/addon-essentials": "^6.5.9",
+		"@storybook/addon-docs": "^6.4.22",
+		"@storybook/addon-essentials": "^6.4.22",
 		"@storybook/addon-interactions": "^6.5.9",
 		"@storybook/addon-links": "^6.5.9",
 		"@storybook/builder-webpack4": "^6.5.9",
 		"@storybook/manager-webpack4": "^6.5.9",
-		"@storybook/react": "^6.5.9",
+		"@storybook/react": "^6.1.21",
 		"@storybook/testing-library": "^0.0.13",
 		"@types/auth0-js": "^9.14.6",
 		"@types/react": "^17.0.2",
@@ -56,7 +56,12 @@
 		"react-router-dom": "^6.3.0",
 		"terser": "^5.15.0",
 		"typescript": "^4.6.4",
-		"vite": "^3.0.7",
-		"vite-plugin-dts": "^1.4.1"
+		"vite": "^3.0.9",
+		"vite-plugin-dts": "^1.4.1",
+		"vite-plugin-libcss": "^1.0.5",
+		"vite-plugin-style-inject": "^0.0.1"
+	},
+	"dependencies": {
+		"update": "^0.7.4"
 	}
 }
