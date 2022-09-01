@@ -9,6 +9,7 @@ const RootLoginButton = styled(Button)({
 	border: '1px solid transparent',
 	justifyContent: 'flex-start',
 	textAlign: 'center',
+	textTransform: 'unset',
 	'&:hover': {
 		backgroundColor: '#051131',
 		boxShadow: 'unset',

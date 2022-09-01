@@ -33,6 +33,7 @@ export const defaultTheme: ThemeOptions = {
 				root: {
 					borderRadius: 0,
 					minHeight: 48,
+					textTransform: 'unset',
 				},
 				textPrimary: {
 					':hover': {
