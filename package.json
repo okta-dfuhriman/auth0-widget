@@ -1,6 +1,6 @@
 {
 	"name": "auth0-widget",
-	"version": "0.0.18",
+	"version": "0.0.19",
 	"description": "React Library of Auth0 Components",
 	"main": "dist/auth0-widget.umd.js",
 	"module": "dist/auth0-widget.es.js",

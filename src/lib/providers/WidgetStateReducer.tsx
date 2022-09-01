@@ -10,6 +10,7 @@ export interface WidgetState {
 	loginHint?: string;
 	logo?: string | React.ReactNode;
 	sendMagicLink?: (email: string) => void;
+	socialLogin?: (connection: Connections) => void;
 	verifyMagicLink?: (props: VerifyMagicLinkProps) => void;
 	[key: string]: any;
 }

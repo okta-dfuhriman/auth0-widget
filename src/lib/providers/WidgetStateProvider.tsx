@@ -92,11 +92,29 @@ const WidgetStateProvider = ({
 		);
 	};
 
+	const socialLogin = (connection: Connections) => {
+		const {
+			scope,
+			responseType = 'code',
+			clientID,
+			redirectUri = window.location.origin,
+		} = authOptions;
+
+		return auth0.authorize({
+			connection,
+			scope,
+			responseType,
+			clientID,
+			redirectUri,
+		});
+	};
+
 	const contextValue = React.useMemo(
 		() => ({
 			...state,
 			goTo,
 			sendMagicLink,
+			socialLogin,
 			verifyMagicLink,
 		}),
 		[state]

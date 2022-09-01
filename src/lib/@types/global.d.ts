@@ -7,6 +7,8 @@ declare global {
 		| 'signup'
 		| undefined;
 
+	type Connections = 'google-oauth2' | 'apple' | 'facebook' | 'email' | 'sms';
+
 	type RenderResultSuccess = {
 		status: 'SUCCESS';
 	};
