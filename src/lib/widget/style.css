@@ -1,0 +1,46 @@
+:root {
+	--google-blue: rgb(66, 133, 244);
+	--google-blue-light: rgba(66, 133, 244, 0.9);
+}
+
+.login-button-text {
+	margin: auto !important;
+}
+
+.button-icon.no-chiclet {
+	padding-left: 11.75px;
+}
+
+.button-icon-wrapper {
+	border-radius: 0px;
+	padding: 11.75px;
+}
+
+.google-button-icon-wrapper {
+	border-radius: 0px;
+	padding: 15px;
+}
+
+.login-button .MuiButton-startIcon {
+	margin: 0 !important;
+}
+
+.google-button-icon-wrapper {
+	background-color: white;
+}
+
+.button-icon {
+	height: 24.5px;
+	width: 24.5px;
+	font-size: 24.5px;
+	line-height: 24.5px;
+}
+
+.google-button-icon {
+	width: 18px;
+	height: 18px;
+}
+
+.email-login-form {
+	width: 16rem !important;
+}
