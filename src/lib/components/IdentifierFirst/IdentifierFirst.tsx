@@ -7,8 +7,9 @@ import { useWidgetState } from '../../hooks';
 
 const IdentifierFirst = () => {
 	const { isLoading, goTo, sendMagicLink, loginHint } = useWidgetState();
-	const [emailValue, setEmailValue] =
-		React.useState<string | undefined>(loginHint);
+	const [emailValue, setEmailValue] = React.useState<string | undefined>(
+		loginHint
+	);
 
 	const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = ({
 		target,
@@ -45,6 +46,7 @@ const IdentifierFirst = () => {
 				/>
 			</Box>
 			<Stack spacing={2} sx={{ width: '100%' }}>
+				{/* <div id='captcha-container' className='captcha-container'></div> */}
 				<Button
 					variant='contained'
 					size='large'
@@ -59,7 +61,7 @@ const IdentifierFirst = () => {
 					<Divider flexItem>or</Divider>
 				</Box>
 				<LoginButton variant='google' />
-				<LoginButton variant='apple' />
+				{/* <LoginButton variant='apple' /> */}
 				{/* <Box
 					sx={{
 						display: 'flex',
