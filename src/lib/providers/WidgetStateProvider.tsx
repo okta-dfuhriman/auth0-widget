@@ -28,6 +28,13 @@ const WidgetStateProvider = ({
 	...props
 }: WidgetStateProviderProps) => {
 	const auth0 = new WebAuth(authOptions);
+	// const captchaContainer = document.querySelector(
+	// 	'.captcha-container'
+	// ) as HTMLElement;
+
+	// const captcha = captchaContainer
+	// 	? auth0.renderCaptcha(captchaContainer)
+	// 	: undefined;
 
 	const [state, dispatch] = React.useReducer(WidgetStateReducer, {
 		...initialState,
@@ -35,22 +42,37 @@ const WidgetStateProvider = ({
 		...props,
 	} as WidgetState);
 
+	React.useLayoutEffect(() => {
+		if (!state?.initialized) {
+			dispatch({ type: 'CLIENT_INITIALIZED' });
+		}
+	}, []);
+
 	const goTo = (flow: AuthFlow) =>
 		dispatch({ type: 'SWITCH_FLOW', payload: { flow } });
 
 	const sendMagicLink = (email: string) => {
 		const cb: Auth0Callback<any, Auth0Error> = <T, E = Auth0Error>(
-			error: E
+			error: E,
+			res: T
 		) => {
 			if (error) {
+				console.group('=== sendMagicLink ERROR ===');
+				console.log(JSON.stringify(error, null, 2));
+				console.groupEnd();
 				dispatch({ type: 'ERROR', error });
 			} else {
+				console.group('=== sendMagicLink ===');
+				console.log(JSON.stringify(res, null, 2));
+				console.groupEnd();
+
 				dispatch({
 					type: 'MAGIC_LINK_SENT',
-					payload: { loginHint: email },
+					payload: { loginHint: email, res },
 				});
 			}
 		};
+		dispatch({ type: 'INITIATED_MAGIC_LINK' });
 
 		auth0.passwordlessStart(
 			{
@@ -72,8 +94,15 @@ const WidgetStateProvider = ({
 			res: T
 		) => {
 			if (error) {
+				console.group('=== verifyMagicLink ERROR ===');
+				console.log(JSON.stringify(error, null, 2));
+				console.groupEnd();
 				dispatch({ type: 'ERROR', error });
 			} else {
+				console.group('=== verifyMagicLink ===');
+				console.log(JSON.stringify(res, null, 2));
+				console.groupEnd();
+
 				dispatch({
 					type: 'MAGIC_LINK_VERIFIED',
 					payload: { magicRes: res },
@@ -99,6 +128,8 @@ const WidgetStateProvider = ({
 			clientID,
 			redirectUri = window.location.origin,
 		} = authOptions;
+
+		dispatch({ type: 'INITIATED_SOCIAL_AUTH' });
 
 		return auth0.authorize({
 			connection,

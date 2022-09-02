@@ -9,6 +9,7 @@ export interface WidgetState {
 	auth0?: WebAuth;
 	loginHint?: string;
 	logo?: string | React.ReactNode;
+	initialized: boolean;
 	sendMagicLink?: (email: string) => void;
 	socialLogin?: (connection: Connections) => void;
 	verifyMagicLink?: (props: VerifyMagicLinkProps) => void;
@@ -18,9 +19,12 @@ export interface WidgetState {
 export type ActionPayload = Partial<WidgetState>;
 
 export type ActionType =
-	| 'INITIALIZE_CLIENT'
+	| 'CLIENT_INITIALIZED'
+	| 'INITIATED_MAGIC_LINK'
+	| 'INITIATED_SOCIAL_AUTH'
 	| 'MAGIC_LINK_SENT'
 	| 'MAGIC_LINK_VERIFIED'
+	| 'SESSION_CHECKED'
 	| 'SWITCH_FLOW'
 	| 'UPDATE_OPTIONS'
 	| 'ERROR';
@@ -33,9 +37,12 @@ export interface Action {
 
 export const initialState: Omit<WidgetState, 'auth0'> = {
 	flow: 'email-link',
-	isLoading: false,
+	isLoading: true,
+	initialized: false,
 	authOptions: {
 		redirectUri: `${window.location.origin}`,
+		responseType: 'code',
+		responseMode: 'query',
 	},
 };
 
@@ -62,8 +69,10 @@ const WidgetStateReducer = (
 			...payload,
 		};
 
+		const { auth0, ...rest } = endState || {};
+
 		console.group('=== NEW STATE ===');
-		console.log(endState);
+		console.log(JSON.stringify(rest, null, 2));
 		console.groupEnd();
 
 		return endState;
@@ -72,24 +81,37 @@ const WidgetStateReducer = (
 	const _default = () => createState({ state, newState, payload });
 
 	switch (type) {
-		case 'INITIALIZE_CLIENT':
-			const { auth0 } = payload || {};
-
-			if (!auth0) {
-				throw new Error(
-					`Unable to initialize client as no valid WebAuth instance was provided!`
-				);
-			}
-
+		case 'CLIENT_INITIALIZED':
 			newState = {
-				auth0,
+				isLoading: false,
+			};
+
+			return _default();
+		case 'INITIATED_MAGIC_LINK':
+			newState = {
+				isLoading: true,
+			};
+
+			return _default();
+		case 'INITIATED_SOCIAL_AUTH':
+			newState = {
+				isLoading: true,
 			};
 
 			return _default();
 		case 'MAGIC_LINK_SENT':
 			newState = {
 				flow: 'email-verify',
+				isLoading: false,
 			};
+
+			return _default();
+		case 'SESSION_CHECKED':
+			newState = {
+				isLoading: false,
+			};
+
+			return _default();
 		case 'SWITCH_FLOW':
 			return _default();
 		case 'UPDATE_OPTIONS':
