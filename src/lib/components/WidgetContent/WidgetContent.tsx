@@ -17,8 +17,6 @@ export interface WidgetContentProps {
 const WidgetContent = (props: WidgetContentProps) => {
 	const { logo } = useWidgetState();
 
-	console.log(logo);
-
 	const { title, noLogo = false, content, children, stackSx } = props;
 
 	const _content =
