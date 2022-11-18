@@ -28,6 +28,7 @@ export default defineConfig({
 				globals: {
 					'react-dom': 'ReactDOM',
 					react: 'React',
+					'@emotion/react': 'emotionReact',
 				},
 				compact: true,
 			},

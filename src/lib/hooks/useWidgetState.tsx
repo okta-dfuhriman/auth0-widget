@@ -1,9 +1,7 @@
 import React from 'react';
 import { WidgetStateContext } from '../providers';
 
-import type { WidgetState } from '../providers';
-
-const useWidgetState = (props?: WidgetState) => {
+const useWidgetState = (props?: Widget.StateProvider.State) => {
 	const context = React.useContext(WidgetStateContext);
 
 	if (context === undefined) {
