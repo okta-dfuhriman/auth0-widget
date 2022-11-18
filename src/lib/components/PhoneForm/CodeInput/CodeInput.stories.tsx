@@ -21,7 +21,9 @@ export default {
 	},
 } as ComponentMeta<typeof CodeInput>;
 
-const Template: ComponentStory<typeof CodeInput> = (args) => <CodeInput {...args} />;
+const Template: ComponentStory<typeof CodeInput> = (args) => (
+	<CodeInput {...args} />
+);
 
 export const Default = Template.bind({});
 
@@ -33,5 +35,11 @@ WithInput.args = {
 export const Interactive: ComponentStory<typeof CodeInput> = (args) => {
 	const [{ value }, updateArgs] = useArgs();
 
-	return <CodeInput {...args} onChange={({ target: { value } }) => updateArgs({ value })} value={value} />;
+	return (
+		<CodeInput
+			{...args}
+			onChange={({ target: { value } }) => updateArgs({ value })}
+			value={value}
+		/>
+	);
 };

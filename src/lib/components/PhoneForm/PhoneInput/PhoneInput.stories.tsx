@@ -21,7 +21,9 @@ export default {
 	},
 } as ComponentMeta<typeof PhoneInput>;
 
-const Template: ComponentStory<typeof PhoneInput> = (args) => <PhoneInput {...args} />;
+const Template: ComponentStory<typeof PhoneInput> = (args) => (
+	<PhoneInput {...args} />
+);
 
 export const Default = Template.bind({});
 
@@ -34,7 +36,9 @@ export const Interactive: ComponentStory<typeof PhoneInput> = (args) => {
 	const [{ value }, updateArgs] = useArgs();
 	const [_formatter] = React.useState(formatter('US'));
 
-	const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+	const handleChange: React.ChangeEventHandler<HTMLInputElement> = (
+		event
+	) => {
 		event.preventDefault();
 
 		const { data } = event?.nativeEvent as CompositionEvent;

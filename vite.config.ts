@@ -15,10 +15,6 @@ export default defineConfig({
 	],
 	build: {
 		sourcemap: true,
-		minify: 'terser',
-		terserOptions: {
-			module: true,
-		},
 		cssCodeSplit: true,
 		lib: {
 			entry: path.resolve(__dirname, 'src/lib/index.tsx'),
@@ -27,7 +23,7 @@ export default defineConfig({
 			fileName: (format) => `auth0-widget.${format}.js`,
 		},
 		rollupOptions: {
-			external: ['react', 'react-dom'],
+			external: ['react', 'react-dom', '@emotion/react'],
 			output: {
 				globals: {
 					'react-dom': 'ReactDOM',

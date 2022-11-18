@@ -21,7 +21,9 @@ export default {
 	},
 } as ComponentMeta<typeof CountrySelector>;
 
-const Template: ComponentStory<typeof CountrySelector> = (args) => <CountrySelector {...args} />;
+const Template: ComponentStory<typeof CountrySelector> = (args) => (
+	<CountrySelector {...args} />
+);
 
 export const Default = Template.bind({});
 
@@ -33,5 +35,11 @@ NoSelection.args = {
 export const Interactive: ComponentStory<typeof CountrySelector> = (args) => {
 	const [{ value }, updateArgs] = useArgs();
 
-	return <CountrySelector {...args} onChange={({ target: { value } }) => updateArgs({ value })} value={value} />;
+	return (
+		<CountrySelector
+			{...args}
+			onChange={({ target: { value } }) => updateArgs({ value })}
+			value={value}
+		/>
+	);
 };

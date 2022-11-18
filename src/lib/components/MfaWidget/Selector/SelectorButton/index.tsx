@@ -8,7 +8,13 @@ export interface SelectorButtonProps {
 }
 
 const SelectorButton = ({ children, ...props }: SelectorButtonProps) => (
-	<MuiButton variant='outlined' size='large' fullWidth sx={{ justifyContent: 'flex-start' }} {...props}>
+	<MuiButton
+		variant='outlined'
+		size='large'
+		fullWidth
+		sx={{ justifyContent: 'flex-start' }}
+		{...props}
+	>
 		{children}
 	</MuiButton>
 );

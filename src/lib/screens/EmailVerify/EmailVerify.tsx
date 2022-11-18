@@ -1,20 +1,20 @@
 import React from 'react';
-import LoadingButton from '@mui/lab/LoadingButton';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import LoopIcon from '@mui/icons-material/Loop';
 import { Checkmark } from 'react-checkmark';
 
-import { WidgetContent } from '../../components';
-import { useWidgetState } from '../../hooks';
+import { LoadingButton } from '../../components';
+import { useSendMagicLink, useWidgetState } from '../../hooks';
 
 const EmailVerify = () => {
-	const { isLoading, sendMagicLink, loginHint, goTo } = useWidgetState();
+	const { loginHint, goTo } = useWidgetState();
+	const { mutation: sendMagicLink, isLoading } = useSendMagicLink();
 
 	const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = () =>
-		sendMagicLink(loginHint);
+		sendMagicLink.mutate({ email: loginHint, resend: true });
 
 	return (
-		<WidgetContent title='Link Sent!' noLogo content='' stackSx={{ mt: 8 }}>
+		<>
 			<Stack sx={{ width: '100%' }} rowGap={3}>
 				<Checkmark size='xxLarge' />
 				<Typography textAlign='center'>
@@ -23,16 +23,17 @@ const EmailVerify = () => {
 				</Typography>
 			</Stack>
 			<Stack spacing={2} sx={{ width: '100%' }}>
-				<Button
+				<LoadingButton
 					variant='contained'
 					size='large'
 					fullWidth
 					disabled={isLoading}
+					loading={isLoading}
 					onClick={handleSubmit}
 					endIcon={<LoopIcon />}
 				>
 					Resend
-				</Button>
+				</LoadingButton>
 				<Box
 					sx={{
 						display: 'flex',
@@ -49,9 +50,6 @@ const EmailVerify = () => {
 						component='a'
 						onClick={() => goTo('email')}
 						sx={{
-							'&.MuiButton-root': {
-								textTransform: 'unset',
-							},
 							m: 0,
 							p: 0,
 						}}
@@ -60,7 +58,7 @@ const EmailVerify = () => {
 					</Button>
 				</Box>
 			</Stack>
-		</WidgetContent>
+		</>
 	);
 };
 

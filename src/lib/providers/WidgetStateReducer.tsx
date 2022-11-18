@@ -1,77 +1,52 @@
-import type { Auth0Error, AuthOptions, WebAuth } from 'auth0-js';
+import { getThemeContent } from './WidgetStateProvider';
 
-import type { VerifyMagicLinkProps } from './WidgetStateProvider';
-
-export interface WidgetState {
-	authOptions: Partial<AuthOptions>;
-	flow: AuthFlow;
-	isLoading: boolean;
-	auth0?: WebAuth;
-	loginHint?: string;
-	logo?: string | React.ReactNode;
-	initialized: boolean;
-	sendMagicLink?: (email: string) => void;
-	socialLogin?: (connection: Connections) => void;
-	verifyMagicLink?: (props: VerifyMagicLinkProps) => void;
-	[key: string]: any;
-}
-
-export type ActionPayload = Partial<WidgetState>;
-
-export type ActionType =
-	| 'CLIENT_INITIALIZED'
-	| 'INITIATED_MAGIC_LINK'
-	| 'INITIATED_SOCIAL_AUTH'
-	| 'MAGIC_LINK_SENT'
-	| 'MAGIC_LINK_VERIFIED'
-	| 'SESSION_CHECKED'
-	| 'SWITCH_FLOW'
-	| 'UPDATE_OPTIONS'
-	| 'ERROR';
-
-export interface Action {
-	type: ActionType;
-	payload?: ActionPayload;
-	error?: any;
-}
-
-export const initialState: Omit<WidgetState, 'auth0'> = {
-	flow: 'email-link',
-	isLoading: true,
-	initialized: false,
+export const initialState: Widget.StateProvider.InitialWidgetState = {
 	authOptions: {
 		redirectUri: `${window.location.origin}`,
 		responseType: 'code',
-		responseMode: 'query',
+		responseMode: 'fragment',
 	},
+	flow: 'email-link',
+	isLoading: false,
 };
 
-interface CreateStateProps {
-	newState: Partial<WidgetState>;
-	state: WidgetState;
-	payload: ActionPayload;
-}
-
-const WidgetStateReducer = (
-	state: WidgetState,
-	{ type, payload = {}, error }: Action
-): WidgetState => {
-	let newState: WidgetState | {} = {};
+const WidgetStateReducer: React.Reducer<
+	Widget.StateProvider.State,
+	Widget.StateReducer.Action
+> = (
+	state: Widget.StateProvider.State,
+	{ type, payload = {}, error }: Widget.StateReducer.Action
+): Widget.StateProvider.State => {
+	let newState: Widget.StateProvider.State | {} = {};
 
 	const createState = ({
 		newState = {},
 		state,
 		payload = {},
-	}: CreateStateProps) => {
-		const endState: WidgetState = {
+		error,
+	}: Widget.StateProvider.CreateStateProps) => {
+		const newTheme: Theme.Content = getThemeContent(
+			payload?.flow || newState?.flow || state?.flow
+		);
+
+		const endTheme: Theme.Content = {
+			...state?.theme,
+			...newTheme,
+			...payload?.theme,
+		};
+
+		const endState: Widget.StateProvider.State = {
 			...state,
 			...newState,
 			...payload,
+			theme: endTheme,
+			error,
 		};
 
 		const { auth0, ...rest } = endState || {};
 
 		console.group('=== NEW STATE ===');
+		console.log(`=== ${type} ===`);
 		console.log(JSON.stringify(rest, null, 2));
 		console.groupEnd();
 
@@ -81,34 +56,54 @@ const WidgetStateReducer = (
 	const _default = () => createState({ state, newState, payload });
 
 	switch (type) {
+		case 'CAPTCHA_RENDERED':
+			return _default();
 		case 'CLIENT_INITIALIZED':
 			newState = {
+				initialized: true,
 				isLoading: false,
+				theme: {
+					hideLogo: !state?.theme?.logo,
+					...state?.theme,
+				},
 			};
 
 			return _default();
-		case 'INITIATED_MAGIC_LINK':
+		case 'INITIATED_CHECK_SESSION':
 			newState = {
-				isLoading: true,
+				isLoadingAuth: true,
 			};
 
 			return _default();
+		case 'INITIATED_EMAIL_MAGIC_LINK_VERIFY':
+			newState = {
+				isLoadingAuth: true,
+			};
+
+			return _default();
+		case 'INITIATED_AUTH0_MANAGE':
+			return _default();
+		case 'INITIATED_EMAIL_MAGIC_LINK':
+
+		case 'INITIATED_SMS_MAGIC_LINK':
+
+		case 'INITIATED_LOGIN_WITH_PASSWORD':
+
 		case 'INITIATED_SOCIAL_AUTH':
-			newState = {
-				isLoading: true,
-			};
-
 			return _default();
 		case 'MAGIC_LINK_SENT':
 			newState = {
 				flow: 'email-verify',
-				isLoading: false,
 			};
 
 			return _default();
-		case 'SESSION_CHECKED':
+		case 'MAGIC_LINK_VERIFIED':
+			return _default();
+		case 'MANAGEMENT_SESSION_CHECKED':
 			newState = {
 				isLoading: false,
+				isLoadingAuth: false,
+				isAuthenticated: false,
 			};
 
 			return _default();
@@ -121,12 +116,25 @@ const WidgetStateReducer = (
 				},
 			};
 			return _default();
-		case 'ERROR':
-			return {
-				...state,
-				...newState,
-				error,
+		case 'USER_FETCHED':
+		case 'USER_UPDATED':
+			return _default();
+		case 'ERROR_RESET':
+			if (state?.error) {
+				delete state.error;
+			}
+
+			newState = {
+				isLoading: false,
 			};
+
+			return _default();
+		case 'ERROR':
+			newState = {
+				isLoading: false,
+			};
+
+			return createState({ newState, state, payload, error });
 		default:
 			throw new Error(`Type [${type}] not implemented!`);
 	}

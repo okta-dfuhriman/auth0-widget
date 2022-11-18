@@ -22,7 +22,9 @@ export default {
 	},
 } as ComponentMeta<typeof PhoneForm>;
 
-const Template: ComponentStory<typeof PhoneForm> = (args) => <PhoneForm {...args} />;
+const Template: ComponentStory<typeof PhoneForm> = (args) => (
+	<PhoneForm {...args} />
+);
 
 export const Default = Template.bind({});
 
@@ -34,5 +36,11 @@ WithInput.args = {
 export const Interactive: ComponentStory<typeof PhoneForm> = (args) => {
 	const [{ value }, updateArgs] = useArgs();
 
-	return <PhoneForm {...args} onChange={({ target: { value } }) => updateArgs({ value })} value={value} />;
+	return (
+		<PhoneForm
+			{...args}
+			onChange={({ target: { value } }) => updateArgs({ value })}
+			value={value}
+		/>
+	);
 };

@@ -1,6 +1,6 @@
 {
 	"name": "auth0-widget",
-	"version": "0.0.21",
+	"version": "0.0.47",
 	"description": "React Library of Auth0 Components",
 	"main": "dist/auth0-widget.umd.js",
 	"module": "dist/auth0-widget.es.js",
@@ -12,13 +12,21 @@
 	},
 	"scripts": {
 		"build": "tsc && vite build",
+		"build:preview": "tsc && vite build --mode 'preview'",
 		"build:watch": "tsc -w && vite build --watch",
 		"clean": "rm -rf dist",
 		"dev": "vite",
 		"release": "npm run clean; npm run build; npm publish",
 		"preview": "vite preview",
 		"storybook": "start-storybook -p 6006",
-		"build-storybook": "build-storybook"
+		"build-storybook": "build-storybook",
+		"pretty": "npx prettier -w ./src/lib/*"
+	},
+	"exports": {
+		".": {
+			"import": "./dist/auth0-widget.es.js",
+			"require": "./dist/auth0-widget.umd.js"
+		}
 	},
 	"devDependencies": {
 		"@emotion/react": "^11.9.3",
@@ -26,8 +34,8 @@
 		"@fortawesome/fontawesome-svg-core": "^6.2.0",
 		"@fortawesome/free-solid-svg-icons": "^6.2.0",
 		"@mui/icons-material": "^5.8.4",
-		"@mui/lab": "^5.0.0-alpha.86",
-		"@mui/material": "^5.8.4",
+		"@mui/lab": "^5.0.0-alpha.98",
+		"@mui/material": "^5.10.4",
 		"@mui/utils": "^5.10.3",
 		"@rollup/plugin-typescript": "^8.3.3",
 		"@storybook/addon-actions": "^6.5.9",
@@ -39,12 +47,13 @@
 		"@storybook/manager-webpack4": "^6.5.9",
 		"@storybook/react": "^6.1.21",
 		"@storybook/testing-library": "^0.0.13",
+		"@tanstack/react-query": "^4.3.4",
 		"@types/auth0-js": "^9.14.6",
 		"@types/react": "^17.0.2",
 		"@types/react-dom": "^17.0.2",
 		"@typescript-eslint/eslint-plugin": "^5.33.1",
 		"@vitejs/plugin-react": "^2.0.1",
-		"auth0-js": "^9.19.0",
+		"auth0-js": "^9.18.0",
 		"awesome-phonenumber": "^3.1.0",
 		"eslint": "^8.22.0",
 		"eslint-config-prettier": "^8.5.0",
@@ -54,14 +63,11 @@
 		"react-checkmark": "^1.4.0",
 		"react-dom": "^17.0.2",
 		"react-router-dom": "^6.3.0",
-		"terser": "^5.15.0",
+		"react-toastify": "^9.0.8",
 		"typescript": "^4.6.4",
 		"vite": "^3.0.9",
 		"vite-plugin-dts": "^1.4.1",
 		"vite-plugin-libcss": "^1.0.5",
 		"vite-plugin-style-inject": "^0.0.1"
-	},
-	"dependencies": {
-		"update": "^0.7.4"
 	}
 }

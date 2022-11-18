@@ -2,6 +2,7 @@ import React from 'react';
 import { Avatar, Stack, Typography, TypographyTypeMap } from '@mui/material';
 
 import { useWidgetState } from '../../hooks';
+import { WidgetHeader } from '../../components';
 
 import type { OverridableComponent } from '@mui/material/OverridableComponent';
 import type { StackProps, SxProps } from '@mui/material';
@@ -17,7 +18,7 @@ export interface WidgetContentProps {
 const WidgetContent = (props: WidgetContentProps) => {
 	const { logo } = useWidgetState();
 
-	const { title, noLogo = false, content, children, stackSx } = props;
+	const { title, noLogo, content, children, stackSx } = props;
 
 	const _content =
 		typeof content === 'string' ? (
@@ -28,16 +29,8 @@ const WidgetContent = (props: WidgetContentProps) => {
 			content
 		);
 
-	const _logo =
-		logo && typeof logo !== 'string' ? (
-			logo
-		) : (
-			<img src={logo} alt='logo' style={{ width: '50%' }} />
-		);
-
 	return (
 		<>
-			{!noLogo && _logo}
 			<Stack sx={{ ...stackSx, flexGrow: 1, px: 3 }}>
 				<Typography variant='h5' align='center' sx={{ pb: 3 }}>
 					{title}

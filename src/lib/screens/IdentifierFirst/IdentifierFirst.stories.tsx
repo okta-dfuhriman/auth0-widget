@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import Widget from '../Widget';
+import { Widget } from '../../components';
 import IdentifierFirst from './IdentifierFirst';
 
 export default {

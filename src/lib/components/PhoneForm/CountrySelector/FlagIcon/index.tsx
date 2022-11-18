@@ -31,7 +31,13 @@ const FlagIcon = ({ country }: FlagIconProps) => {
 			flag = US;
 			break;
 	}
-	return <object type='image/svg+xml' data={`data:image/svg+xml,${flag}`} />;
+	return (
+		<object
+			id='country-flag'
+			type='image/svg+xml'
+			data={`data:image/svg+xml,${flag}`}
+		/>
+	);
 };
 
 FlagIcon.defaultProps = {

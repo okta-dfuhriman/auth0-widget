@@ -2,11 +2,11 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { useArgs } from '@storybook/client-api';
 
-import EmailInput from './index';
+import PasswordInput from './index';
 
 export default {
 	title: 'Inputs/Email Input',
-	component: EmailInput,
+	component: PasswordInput,
 	argTypes: {
 		onChange: { action: 'changed', table: { disable: true } },
 		hiddenLabel: {
@@ -19,9 +19,11 @@ export default {
 	args: {
 		margin: 'normal',
 	},
-} as ComponentMeta<typeof EmailInput>;
+} as ComponentMeta<typeof PasswordInput>;
 
-const Template: ComponentStory<typeof EmailInput> = (args) => <EmailInput {...args} />;
+const Template: ComponentStory<typeof PasswordInput> = (args) => (
+	<PasswordInput {...args} />
+);
 
 export const Default = Template.bind({});
 
@@ -30,8 +32,14 @@ WithInput.args = {
 	value: 'user@atko.email',
 };
 
-export const Interactive: ComponentStory<typeof EmailInput> = (args) => {
+export const Interactive: ComponentStory<typeof PasswordInput> = (args) => {
 	const [{ value }, updateArgs] = useArgs();
 
-	return <EmailInput {...args} onChange={({ target: { value } }) => updateArgs({ value })} value={value} />;
+	return (
+		<PasswordInput
+			{...args}
+			onChange={({ target: { value } }) => updateArgs({ value })}
+			value={value}
+		/>
+	);
 };

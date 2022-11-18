@@ -11,6 +11,16 @@ export * from './Countries';
 export interface CountrySelectorProps extends StandardTextFieldProps {}
 
 const CountrySelectorRoot = styled(TextField)(() => ({
+	'& .MuiSelect-select': {
+		display: 'flex',
+	},
+	// '& .MuiInputBase-input': {
+	// 	position: 'relative',
+	// },
+	// '& .MuiPaper-root': {
+	// 	top: 'unset',
+	// 	left: 'unset',
+	// },
 	'& .MuiInput-input': {
 		display: 'flex',
 		alignItems: 'center',
@@ -26,7 +36,7 @@ const CountrySelector = (props: CountrySelectorProps) => (
 	<CountrySelectorRoot {...props}>
 		{CountriesList.map(({ code, value, name }) => (
 			<MenuItem key={code} value={code}>
-				<ListItemIcon sx={{ pr: 1 }}>
+				<ListItemIcon sx={{ mr: 1 }}>
 					<FlagIcon country={code} />
 				</ListItemIcon>
 				<ListItemText>{`${name}, ${code}, ${value}`}</ListItemText>
@@ -38,12 +48,12 @@ const CountrySelector = (props: CountrySelectorProps) => (
 CountrySelector.defaultProps = {
 	id: 'country-selector',
 	fullWidth: true,
-	label: '',
+	label: 'Country',
 	margin: 'normal',
 	required: true,
 	select: true,
 	value: 'US',
-	variant: 'standard',
+	variant: 'outlined',
 };
 
 export default CountrySelector;
